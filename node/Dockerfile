@@ -13,4 +13,4 @@ RUN npm i
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+CMD ["wait-for", "db:3306", "--", "npm", "start"]

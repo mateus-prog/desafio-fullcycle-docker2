@@ -20,6 +20,8 @@ services:
       context: ./node
     depends_on:
       - db
+    volumes:
+      - ./node:usr/src/app
     networks:
       - default-network
 
