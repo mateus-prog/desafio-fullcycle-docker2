@@ -18,16 +18,17 @@ services:
     restart: always
     build:
       context: ./node
+    entrypoint: wait-for db:3306 -- sh -c  "npm install && npm start"
     depends_on:
       - db
     volumes:
-      - ./node:usr/src/app
+      - ./node:/usr/src/app
     networks:
       - default-network
 
   db:
-    build: 
-      context: ./mysql
+    #build: 
+      #context: ./mysql
     container_name: db
     restart: always
     tty: true
@@ -35,6 +36,7 @@ services:
       - default-network
     volumes:
       - ./mysql/volume:/var/lib/mysql
+      - ./mysql/setup.sql:/docker-entrypoint-initdb.d/setup.sql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
